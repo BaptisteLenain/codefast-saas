@@ -1,17 +1,35 @@
+"use client";
+
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 // This button is used to login or go to the dashboard
-const ButtonLogin = ({ isLoggedIn, name, extraStyle }) => {
-  if (isLoggedIn) {
+const ButtonLogin = ({ session, extraStyle }) => {
+  const dashboardUrl = "/dashboard";
+
+  if (session) {
     return (
       <Link
-        href="/dashboard"
+        href={dashboardUrl}
         className={`btn btn-primary ${extraStyle ? extraStyle : ""}`}
       >
-        Welcome back {name}
+        Welcome back {session.user.name || "friend"}
       </Link>
     );
   }
-  return <button>Login</button>;
+  return (
+    <button
+      className={`btn btn-primary ${extraStyle ? extraStyle : ""}`}
+      onClick={() => {
+        signIn(undefined, { dashboardUrl });
+      }}
+    >
+      Get started
+    </button>
+  );
+
+  // 1. Create a /login page
+  // 2. Create a email/password form
+  // 3. Make a POST request to /api/login
 };
 export default ButtonLogin;
