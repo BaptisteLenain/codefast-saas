@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import connectMongo from "@/libs/mongoose";
 import Board from "@/models/Board";
